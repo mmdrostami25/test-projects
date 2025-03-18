@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Immersive-Theater-Gaming</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #e0f7fa;
+            color: #006064;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .game-container {
+            text-align: center;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .story {
+            margin: 20px 0;
+            font-size: 18px;
+        }
+
+        .button {
+            background-color: #00796b;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px 0;
+        }
+
+        .button:hover {
+            background-color: #004d40;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Immersive Theater Gaming</h1>
+        <div id="story" class="story"></div>
+        <div id="choices" class="choices"></div>
+    </div>
+
+    <script>
+        const storyElement = document.getElementById("story");
+        const choicesElement = document.getElementById("choices");
+
+        const storyData = [
+            {
+                text: "You enter a mysterious theater, dimly lit, with an audience buzzing with excitement. Do you wish to explore the stage or sit back and watch?",
+                options: [
+                    { text: "Explore the stage", next: 1 },
+                    { text: "Sit back and watch", next: 2 }
+                ]
+            },
+            {
+                text: "As you step onto the stage, the spotlight shines down. The actors invite you to join them! Do you dance with them or retreat?",
+                options: [
+                    { text: "Dance with them", next: 3 },
+                    { text: "Retreat", next: 4 }
+                ]
+            },
+            {
+                text: "You enjoy the performance as an audience member. However, you notice an actor looking at you, beckoning for your attention. Do you respond or ignore?",
+                options: [
+                    { text: "Respond", next: 5 },
+                    { text: "Ignore", next: 6 }
+                ]
+            },
+            {
+                text: "The performance turns exhilarating as you join the dance, blending with the actors. The audience cheers! You’ve left a mark on the performance.",
+                options: []
+            },
+            {
+                text: "You step back, and the actors proceed without you. The performance continues, but you feel you’ve missed a magical opportunity.",
+                options: []
+            },
+            {
+                text: "You respond to the actor, and they pull you into the performance! You are now part of an unforgettable scene.",
+                options: []
+            },
+            {
+                text: "You choose to ignore the actor, but they keep looking at you. The atmosphere feels poignant, but you remain a spectator.",
+                options: []
+            }
+        ];
+
+        let currentStoryIndex = 0;
+
+        function displayStory(index) {
+            const story = storyData[index];
+            storyElement.innerText = story.text;
+            choicesElement.innerHTML = '';
+
+            story.options.forEach(option => {
+                const button = document.createElement("button");
+                button.innerText = option.text;
+                button.className = "button";
+                
+                button.addEventListener("click", () => {
+                    currentStoryIndex = option.next;
+                    displayStory(currentStoryIndex);
+                });
+                
+                choicesElement.appendChild(button);
+            });
+        }
+
+        // Start the game by displaying the initial story
+        displayStory(currentStoryIndex);
+    </script>
+</body>
+</html>

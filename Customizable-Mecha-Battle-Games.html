@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customizable-Mecha-Battle-Games</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0f7fa;
+            color: #004d40;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .game-container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Mecha Battle Arena</h1>
+        <div id="customization">
+            <h2>Customize Your Mech</h2>
+            <div>
+                <label for="weapon">Choose a Weapon:</label>
+                <select id="weapon">
+                    <option value="laser">Laser Gun</option>
+                    <option value="cannon">Cannon</option>
+                    <option value="missiles">Missiles</option>
+                </select>
+            </div>
+            <div>
+                <label for="armor">Choose Armor:</label>
+                <select id="armor">
+                    <option value="light">Light Armor</option>
+                    <option value="medium">Medium Armor</option>
+                    <option value="heavy">Heavy Armor</option>
+                </select>
+            </div>
+            <button id="startBattleButton">Start Battle</button>
+        </div>
+        <div id="battle" class="hidden">
+            <h2>Battle!</h2>
+            <div id="battleLog"></div>
+            <button id="attackButton">Attack!</button>
+        </div>
+    </div>
+    <script>
+        const startBattleButton = document.getElementById("startBattleButton");
+        const attackButton = document.getElementById("attackButton");
+        const battleLog = document.getElementById("battleLog");
+        const customization = document.getElementById("customization");
+        const battle = document.getElementById("battle");
+
+        let playerMech = {
+            weapon: "",
+            armor: "",
+            health: 100,
+        };
+
+        let enemyMech = {
+            health: 100,
+        };
+
+        startBattleButton.addEventListener("click", startBattle);
+        attackButton.addEventListener("click", attack);
+
+        function startBattle() {
+            const weaponSelect = document.getElementById("weapon").value;
+            const armorSelect = document.getElementById("armor").value;
+
+            playerMech.weapon = weaponSelect;
+            playerMech.armor = armorSelect;
+
+            battleLog.innerText = `You have chosen a mech with ${weaponSelect} and ${armorSelect}.`
+            customization.classList.add("hidden");
+            battle.classList.remove("hidden");
+            resetEnemy();
+        }
+
+        function resetEnemy() {
+            enemyMech.health = 100;
+            battleLog.innerText += "\nAn enemy mech has appeared!";
+        }
+
+        function attack() {
+            const damage = calculateDamage(playerMech.weapon);
+            enemyMech.health -= damage;
+
+            battleLog.innerText += `\nYou attack the enemy with your ${playerMech.weapon} for ${damage} damage!`;
+            
+            if (enemyMech.health <= 0) {
+                battleLog.innerText += "\nYou defeated the enemy mech!";
+                attackButton.disabled = true;
+                return;
+            }
+            
+            enemyAttack();
+        }
+
+        function enemyAttack() {
+            const enemyDamage = Math.floor(Math.random() * 20 + 1); // Random damage from 1 to 20
+            playerMech.health -= enemyDamage;
+
+            battleLog.innerText += `\nThe enemy attacks you for ${enemyDamage} damage!`;
+
+            if (playerMech.health <= 0) {
+                battleLog.innerText += "\nYour mech has been destroyed! Game Over.";
+                attackButton.disabled = true;
+            }
+        }
+
+        function calculateDamage(weapon) {
+            switch (weapon) {
+                case "laser": return Math.floor(Math.random() * 15 + 5); // 5-20 damage
+                case "cannon": return Math.floor(Math.random() * 10 + 10); // 10-20 damage
+                case "missiles": return Math.floor(Math.random() * 20 + 1); // 1-20 damage
+                default: return 0;
+            }
+        }
+    </script>
+</body>
+</html>

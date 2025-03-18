@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive-Escape-Room-Puzzle-Games</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            text-align: center;
+        }
+
+        #game-container {
+            margin: 20px auto;
+            padding: 20px;
+            background: #34495e;
+            border-radius: 10px;
+            width: 400px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        input {
+            padding: 10px;
+            margin: 10px;
+            width: 80%;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin: 10px;
+            border: none;
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #c0392b;
+        }
+
+        #messages {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>Escape Room Puzzle Game</h1>
+        <div id="puzzle-container">
+            <p id="puzzle-text"></p>
+            <input type="text" id="player-input" placeholder="Solve the puzzle...">
+            <button id="submit-answer">Submit</button>
+        </div>
+        <div id="messages"></div>
+        <button id="next-puzzle" style="display: none;">Next Puzzle</button>
+    </div>
+    <script>
+        const puzzles = [
+            { question: "What has keys but can't open locks?", answer: "piano" },
+            { question: "I speak without a mouth and hear without ears. I have no body, but I come alive with wind. What am I?", answer: "echo" },
+            { question: "What is always in front of you but can’t be seen?", answer: "future" },
+        ];
+
+        let currentPuzzleIndex = 0;
+
+        const puzzleText = document.getElementById("puzzle-text");
+        const playerInput = document.getElementById("player-input");
+        const submitAnswerButton = document.getElementById("submit-answer");
+        const messagesDiv = document.getElementById("messages");
+        const nextPuzzleButton = document.getElementById("next-puzzle");
+
+        function loadPuzzle() {
+            if (currentPuzzleIndex < puzzles.length) {
+                puzzleText.innerText = puzzles[currentPuzzleIndex].question;
+                playerInput.value = '';
+                messagesDiv.innerText = '';
+                nextPuzzleButton.style.display = 'none';
+            } else {
+                puzzleText.innerText = "Congratulations! You've escaped the room!";
+                playerInput.style.display = 'none';
+                submitAnswerButton.style.display = 'none';
+                nextPuzzleButton.style.display = 'none';
+            }
+        }
+
+        function checkAnswer() {
+            const playerAnswer = playerInput.value.toLowerCase();
+            
+            if (playerAnswer === puzzles[currentPuzzleIndex].answer) {
+                messagesDiv.innerText = "Correct! You've solved this puzzle.";
+                nextPuzzleButton.style.display = 'block'; // Show next puzzle button
+            } else {
+                messagesDiv.innerText = "Wrong answer, try again.";
+            }
+        }
+
+        // Load the first puzzle
+        loadPuzzle();
+
+        // Add event listeners
+        submitAnswerButton.addEventListener("click", checkAnswer);
+        nextPuzzleButton.addEventListener("click", () => {
+            currentPuzzleIndex++;
+            loadPuzzle();
+        });
+    </script>
+</body>
+</html>l

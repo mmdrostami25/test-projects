@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivia Quiz Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        #options {
+            margin: 20px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Trivia Quiz Game</h1>
+        <div id="quiz-container">
+            <div id="question"></div>
+            <div id="options"></div>
+            <button id="next-btn" onclick="nextQuestion()">Next</button>
+        </div>
+        <div id="score-container">
+            <h2>Your Score: <span id="score">0</span></h2>
+            <h2>Time Left: <span id="timer">15</span> seconds</h2>
+        </div>
+    </div>
+    <script>
+        const questions = [
+            {
+                question: "What is the capital of France?",
+                options: ["Berlin", "Madrid", "Paris", "Rome"],
+                answer: "Paris"
+            },
+            {
+                question: "Which planet is known as the Red Planet?",
+                options: ["Earth", "Mars", "Jupiter", "Saturn"],
+                answer: "Mars"
+            },
+            {
+                question: "What is the largest ocean on Earth?",
+                options: ["Atlantic Ocean", "Indian Ocean", "Arctic Ocean", "Pacific Ocean"],
+                answer: "Pacific Ocean"
+            },
+            // Add more questions as desired
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer;
+        let timeLeft = 15;
+
+        function startGame() {
+            currentQuestionIndex = 0;
+            score = 0;
+            timeLeft = 15;
+            document.getElementById('score').textContent = score;
+            loadQuestion();
+            startTimer();
+        }
+
+        function loadQuestion() {
+            clearInterval(timer);
+            timeLeft = 15;
+            document.getElementById('timer').textContent = timeLeft;
+            const currentQuestion = questions[currentQuestionIndex];
+            document.getElementById('question').textContent = currentQuestion.question;
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            currentQuestion.options.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.onclick = () => checkAnswer(option);
+                optionsContainer.appendChild(button);
+            });
+            startTimer();
+        }
+
+        function startTimer() {
+            timer = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer').textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    alert('Time is up! Next question.');
+                    nextQuestion();
+                }
+            }, 1000);
+        }
+
+        function checkAnswer(selected) {
+            const currentQuestion = questions[currentQuestionIndex];
+            if (selected === currentQuestion.answer) {
+                score++;
+            }
+            document.getElementById('score').textContent = score;
+            clearInterval(timer);
+            alert(`Correct Answer: ${currentQuestion.answer}`);
+            nextQuestion();
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                alert(`Game Over! Your score is: ${score}`);
+            }
+        }
+
+        startGame();
+    </script>
+</body>
+</html>

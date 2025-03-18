@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive-Mythology-Investigations</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background-image: url('mythology-background.jpg');
+            background-size: cover;
+            color: #eeeeee;
+        }
+
+        .container {
+            width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 2px solid #fff;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        h1 {
+            text-align: center;
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        #story {
+            margin-bottom: 20px;
+        }
+
+        #choices {
+            text-align: center;
+        }
+
+        button {
+            background-color: #6a1b9a;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            margin: 5px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #4a148c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Interactive Mythology Investigations</h1>
+        <div id="story">
+            <p id="current-story">Welcome, investigator! Choose a myth to explore.</p>
+        </div>
+        <div id="choices"></div>
+    </div>
+    <script>
+        const stories = [
+            {
+                myth: "The Legend of Atlantis",
+                text: "You have uncovered a parchment that speaks of the lost city of Atlantis. Do you want to explore:",
+                choices: [
+                    { text: "The underwater ruins", next: 1 },
+                    { text: "The ancient scrolls", next: 2 }
+                ]
+            },
+            {
+                text: "You dive into the ruins and discover glowing artifacts. As you investigate, you find a treasure chest filled with gold, but it's guarded by a mysterious creature. Do you:",
+                choices: [
+                    { text: "Negotiate with the creature", next: 3 },
+                    { text: "Attempt to flee with the gold", next: 4 }
+                ]
+            },
+            {
+                text: "The scrolls reveal a map leading to the legendary city. You can either:",
+                choices: [
+                    { text: "Follow the map", next: 5 },
+                    { text: "Ignore the map and search for clues", next: 4 }
+                ]
+            },
+            {
+                text: "You successfully negotiate with the creature and earn its trust. You leave with the artifacts and newfound knowledge. The End.",
+                choices: []
+            },
+            {
+                text: "While fleeing, you trip and lose the gold, but you manage to escape. You’ll live to tell the tale. The End.",
+                choices: []
+            },
+            {
+                text: "Following the map leads you to an ancient temple filled with traps and treasures. You can either:",
+                choices: [
+                    { text: "Brave the traps for treasure", next: 6 },
+                    { text: "Leave and document your findings", next: 3 }
+                ]
+            },
+            {
+                text: "You overcome the traps and find a grand treasure, revealing the truth behind Atlantis. You share your discoveries with the world! The End.",
+                choices: []
+            },
+        ];
+
+        let currentStoryIndex = 0;
+
+        function updateGame() {
+            const currentScene = stories[currentStoryIndex];
+            document.getElementById("current-story").innerText = currentScene.myth ? currentScene.text : currentScene.text;
+
+            const choicesDiv = document.getElementById("choices");
+            choicesDiv.innerHTML = ""; // Clear previous choices
+
+            currentScene.choices.forEach(choice => {
+                const button = document.createElement("button");
+                button.innerText = choice.text;
+                button.onclick = () => {
+                    currentStoryIndex = choice.next;
+                    updateGame();
+                };
+                choicesDiv.appendChild(button);
+            });
+
+            if (currentScene.choices.length === 0) {
+                document.getElementById("current-story").innerText += "\nThe story has ended.";
+            }
+        }
+
+        // Start the game
+        updateGame();
+    </script>
+</body>
+</html>

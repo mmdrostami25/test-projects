@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exploration-of-Cultural-Heritage-Games</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f3f4;
+            color: #34495e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .game-container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .choices {
+            margin: 20px 0;
+        }
+
+        button {
+            margin-top: 20px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Cultural Heritage Quest</h1>
+        <div id="story"></div>
+        <div id="choices" class="choices"></div>
+        <button id="nextButton" class="hidden">Next</button>
+    </div>
+
+    <script>
+        const storyElement = document.getElementById("story");
+        const choicesElement = document.getElementById("choices");
+        const nextButton = document.getElementById("nextButton");
+
+        const storyData = [
+            {
+                text: "You arrive at a vibrant market in Morocco, surrounded by spices and colorful textiles. What do you want to do?",
+                choices: [
+                    { text: "Talk to a spice vendor", nextStory: 1 },
+                    { text: "Explore a nearby textile shop", nextStory: 2 }
+                ]
+            },
+            {
+                text: "The spice vendor shares stories about the history of spices in Moroccan cuisine. You learn about the cultural significance of each spice. What do you want to do next?",
+                choices: [
+                    { text: "Purchase some spices", nextStory: 3 },
+                    { text: "Thank the vendor and move on", nextStory: 0 }
+                ]
+            },
+            {
+                text: "In the textile shop, you find beautiful fabrics. The shopkeeper explains the traditional techniques used to create them. What do you want to do?",
+                choices: [
+                    { text: "Buy a piece of fabric", nextStory: 3 },
+                    { text: "Leave the shop", nextStory: 0 }
+                ]
+            },
+            {
+                text: "You've decided to buy some unique items for your journey. You feel enriched by experiencing Moroccan culture. The quest continues.",
+                choices: []
+            }
+        ];
+
+        let currentStoryIndex = 0;
+
+        function startGame() {
+            showStory(currentStoryIndex);
+        }
+
+        function showStory(index) {
+            const story = storyData[index];
+            storyElement.innerText = story.text;
+            choicesElement.innerHTML = "";
+            nextButton.classList.add("hidden");
+
+            story.choices.forEach(choice => {
+                const button = document.createElement("button");
+                button.innerText = choice.text;
+                button.addEventListener("click", () => {
+                    currentStoryIndex = choice.nextStory;
+                    showStory(currentStoryIndex);
+                });
+                choicesElement.appendChild(button);
+            });
+
+            if (story.choices.length === 0) {
+                nextButton.classList.remove("hidden");
+                nextButton.addEventListener("click", resetGame);
+            }
+        }
+
+        function resetGame() {
+            currentStoryIndex = 0;
+            startGame();
+        }
+
+        startGame();
+    </script>
+</body>
+</html>

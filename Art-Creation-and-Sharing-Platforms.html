@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Art Creation-and-Sharing-Platforms</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        .container {
+            width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        canvas {
+            border: 1px solid #ccc;
+            display: block;
+            margin: 0 auto;
+        }
+
+        #controls {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+
+        button {
+            margin-left: 10px;
+            padding: 10px 15px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #gallery-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .art-piece {
+            margin: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .art-piece img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Digital Art Creation and Sharing</h1>
+        <div id="art-creation-area">
+            <canvas id="artCanvas" width="500" height="500"></canvas>
+            <div id="controls">
+                <input type="color" id="colorPicker" value="#000000">
+                <button id="clearCanvas">Clear Canvas</button>
+                <button id="saveArt">Save Art</button>
+            </div>
+        </div>
+        <div id="art-gallery">
+            <h2>Art Gallery</h2>
+            <div id="gallery-container"></div>
+        </div>
+    </div>
+    <script>
+        const canvas = document.getElementById("artCanvas");
+        const ctx = canvas.getContext("2d");
+        const colorPicker = document.getElementById("colorPicker");
+        const clearCanvasButton = document.getElementById("clearCanvas");
+        const saveArtButton = document.getElementById("saveArt");
+        const galleryContainer = document.getElementById("gallery-container");
+
+        let painting = false;
+
+        // Start painting
+        canvas.addEventListener("mousedown", () => {
+            painting = true;
+            ctx.beginPath();
+        });
+
+        // Draw on canvas
+        canvas.addEventListener("mousemove", (event) => {
+            if (!painting) return;
+
+            ctx.lineWidth = 5;
+            ctx.lineCap = "round";
+            ctx.strokeStyle = colorPicker.value;
+
+            ctx.lineTo(event.clientX - canvas.offsetLeft, event.clientY - canvas.offsetTop);
+            ctx.stroke();
+        });
+
+        // Stop painting
+        window.addEventListener("mouseup", () => {
+            painting = false;
+        });
+
+        // Clear the canvas
+        clearCanvasButton.addEventListener("click", () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+
+        // Save art
+        saveArtButton.addEventListener("click", () => {
+            const artData = canvas.toDataURL("image/png");
+            const artImage = document.createElement("img");
+            artImage.src = artData;
+            artImage.classList.add('art-piece');
+
+            // Add image to gallery
+            const artDiv = document.createElement("div");
+            artDiv.appendChild(artImage);
+            galleryContainer.appendChild(artDiv);
+        });
+
+        // Optional: allow likes and comments (additional features can be added here)
+    </script>
+</body>
+</html>

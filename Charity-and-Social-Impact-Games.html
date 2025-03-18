@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charity-and-Social-Impact-Games</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #e1f5fe;
+            color: #0d47a1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .game-container {
+            text-align: center;
+            background: #bbdefb;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 400px;
+        }
+
+        .points {
+            margin: 20px 0;
+            font-size: 18px;
+        }
+
+        .donation-result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .button {
+            background-color: #2196f3;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #1976d2;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Charity Challenge</h1>
+        <p id="challenge"></p>
+        <button id="accept-button" class="button" onclick="acceptChallenge()">Accept Challenge</button>
+        <button id="donate-button" class="button" onclick="donatePoints()">Donate Points</button>
+        <div id="points" class="points">Points: 0</div>
+        <div id="donation-result" class="donation-result"></div>
+    </div>
+
+    <script>
+        const challenges = [
+            { text: "Plant a tree", points: 10 },
+            { text: "Donate clothes", points: 15 },
+            { text: "Volunteer at a local shelter", points: 20 },
+            { text: "Share a social cause on social media", points: 5 }
+        ];
+
+        let totalPoints = 0;
+
+        function acceptChallenge() {
+            const challengeIndex = Math.floor(Math.random() * challenges.length);
+            const chosenChallenge = challenges[challengeIndex];
+
+            document.getElementById("challenge").innerText = `Challenge: ${chosenChallenge.text}`;
+            totalPoints += chosenChallenge.points;
+            updatePoints();
+        }
+
+        function updatePoints() {
+            document.getElementById("points").innerText = `Points: ${totalPoints}`;
+        }
+
+        function donatePoints() {
+            if (totalPoints > 0) {
+                const donationAmount = Math.min(totalPoints, 50); // Max donation limit
+                totalPoints -= donationAmount;
+                updatePoints();
+                document.getElementById("donation-result").innerText = `You donated ${donationAmount} points to charity! Thank you!`;
+            } else {
+                document.getElementById("donation-result").innerText = "You have no points to donate.";
+            }
+        }
+
+        // Welcome message
+        document.getElementById("challenge").innerText = "Welcome to Charity Challenge! Click 'Accept Challenge' to start!";
+    </script>
+</body>
+</html>

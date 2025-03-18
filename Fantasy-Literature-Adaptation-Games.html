@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fantasy-Literature-Adaptation-Games</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4c3;
+            color: #3e2723;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .game-container {
+            text-align: center;
+            background: #c8e6c9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .story {
+            margin: 20px 0;
+            font-size: 18px;
+        }
+
+        .choices {
+            margin: 20px 0;
+        }
+
+        .button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #388e3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Quest for the Lost Artifact</h1>
+        <div id="story" class="story"></div>
+        <div id="choices" class="choices"></div>
+        <button id="restart-button" class="button" onclick="restartGame()" style="display: none;">Restart Game</button>
+    </div>
+
+    <script>
+        const storyText = [
+            "You stand at the edge of a dark forest, rumored to be home to a powerful artifact. Do you want to enter?",
+            "You bravely venture into the forest. Suddenly, a giant appears! Do you fight or flee?",
+            "You attempt to negotiate with the giant, who tells you the artifact is guarded by a dragon.",
+            "You fight valiantly and defeat the giant! You proceed deeper into the forest.",
+            "You run away safely to the forest's edge, but you wonder what treasures lay within.",
+            "You arrive at a dragon's lair. Will you sneak in or challenge the dragon?",
+            "You sneak into the lair and discover the artifact! You've completed your quest!",
+            "The dragon awakens and breathes fire! You narrowly escape with your life but without the artifact."
+        ];
+
+        const choices = [
+            ["Enter the forest", "Run away"],
+            ["Fight the giant", "Negotiate"],
+            ["Sneak in", "Challenge the dragon"],
+            ["Restart Game"]
+        ];
+
+        let currentStep = 0;
+
+        function startGame() {
+            displayStory();
+        }
+
+        function displayStory() {
+            document.getElementById("story").innerText = storyText[currentStep];
+
+            const choicesDiv = document.getElementById("choices");
+            choicesDiv.innerHTML = ""; // Clear previous choices
+
+            choices[currentStep].forEach((choice, index) => {
+                const choiceButton = document.createElement("button");
+                choiceButton.innerText = choice;
+                choiceButton.className = "button";
+                choiceButton.onclick = () => makeChoice(index);
+                choicesDiv.appendChild(choiceButton);
+            });
+        }
+
+        function makeChoice(index) {
+            if (currentStep === 0) {
+                currentStep = index === 0 ? 1 : 4; // Proceed based on choice
+            } else if (currentStep === 1) {
+                currentStep = index === 0 ? 3 : 2;
+            } else if (currentStep === 2) {
+                currentStep = 6; // End the quest
+            } else if (currentStep === 3) {
+                currentStep = 5; // Proceed deeper
+            } else if (currentStep === 4) {
+                currentStep = 0; // Restart at beginning
+            } else if (currentStep === 5) {
+                currentStep = index === 0 ? 6 : 7; // End the quest based on choice
+            }
+
+            if (currentStep >= storyText.length) {
+                endGame();
+            } else {
+                displayStory();
+            }
+        }
+
+        function endGame() {
+            document.getElementById("story").innerText = "Game Over! Thank you for playing!";
+            document.getElementById("choices").innerHTML = "";
+            document.getElementById("restart-button").style.display = "block";
+        }
+
+        function restartGame() {
+            currentStep = 0;
+            document.getElementById("restart-button").style.display = "none";
+            startGame();
+        }
+
+        // Start the game initially
+        startGame();
+    </script>
+</body>
+</html>

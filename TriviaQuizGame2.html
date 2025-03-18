@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivia Quiz Game2</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .question-container {
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+
+        .options-container {
+            margin-bottom: 20px;
+        }
+
+        option {
+            margin: 10px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+        }
+
+        .score-container {
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Trivia Quiz Game</h1>
+        <div id="question-container" class="question-container"></div>
+        <div id="options-container" class="options-container"></div>
+        <div id="controls">
+            <button id="next-button" class="hidden">Next Question</button>
+            <button id="start-button">Start Game</button>
+        </div>
+        <div id="score-container" class="score-container hidden"></div>
+    </div>
+    <script>
+        const questions = [
+            {
+                question: "What is the capital of France?",
+                options: ["Berlin", "Madrid", "Paris", "Lisbon"],
+                answer: "Paris",
+            },
+            {
+                question: "Which planet is known as the Red Planet?",
+                options: ["Earth", "Mars", "Jupiter", "Venus"],
+                answer: "Mars",
+            },
+            {
+                question: "What is the largest ocean on Earth?",
+                options: ["Atlantic Ocean", "Indian Ocean", "Arctic Ocean", "Pacific Ocean"],
+                answer: "Pacific Ocean",
+            },
+            {
+                question: "Who wrote 'Romeo and Juliet'?",
+                options: ["Charles Dickens", "Jane Austen", "William Shakespeare", "Mark Twain"],
+                answer: "William Shakespeare",
+            },
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        const questionContainer = document.getElementById('question-container');
+        const optionsContainer = document.getElementById('options-container');
+        const nextButton = document.getElementById('next-button');
+        const startButton = document.getElementById('start-button');
+        const scoreContainer = document.getElementById('score-container');
+
+        startButton.addEventListener('click', startGame);
+        nextButton.addEventListener('click', () => {
+            currentQuestionIndex++;
+            setNextQuestion();
+        });
+
+        function startGame() {
+            currentQuestionIndex = 0;
+            score = 0;
+            startButton.classList.add('hidden');
+            scoreContainer.classList.add('hidden');
+            nextButton.classList.add('hidden');
+            setNextQuestion();
+        }
+
+        function setNextQuestion() {
+            resetState();
+            showQuestion(questions[currentQuestionIndex]);
+        }
+
+        function showQuestion(question) {
+            questionContainer.innerText = question.question;
+            question.options.forEach(option => {
+                const button = document.createElement('button');
+                button.innerText = option;
+                button.classList.add('option-button');
+                button.addEventListener('click', selectOption);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function resetState() {
+            nextButton.classList.add('hidden');
+            while (optionsContainer.firstChild) {
+                optionsContainer.removeChild(optionsContainer.firstChild);
+            }
+        }
+
+        function selectOption(event) {
+            const selectedOption = event.target;
+            const correct = questions[currentQuestionIndex].answer;
+
+            if (selectedOption.innerText === correct) {
+                score++;
+                selectedOption.classList.add('correct');
+            } else {
+                selectedOption.classList.add('incorrect');
+            }
+
+            Array.from(optionsContainer.children).forEach(button => {
+                if (button.innerText === correct) {
+                    button.classList.add('correct');
+                }
+            });
+
+            if (currentQuestionIndex < questions.length - 1) {
+                nextButton.classList.remove('hidden');
+            } else {
+                startButton.innerText = 'Restart';
+                startButton.classList.remove('hidden');
+                scoreContainer.innerText = `Your score: ${score} out of ${questions.length}`;
+                scoreContainer.classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>

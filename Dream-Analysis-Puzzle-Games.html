@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dream-Analysis-Puzzle-Games</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .game-container {
+            text-align: center;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        .dream-scenario {
+            margin: 20px 0;
+            font-size: 18px;
+        }
+
+        .puzzle {
+            margin: 20px 0;
+            font-size: 16px;
+        }
+
+        .output {
+            margin-top: 20px;
+            font-size: 16px;
+            height: 50px;
+            overflow-y: auto;
+            border: 1px solid #333;
+            padding: 10px;
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Dream Interpreter</h1>
+        <div id="dreamScenario" class="dream-scenario"></div>
+        <div id="puzzle" class="puzzle"></div>
+        <input type="text" id="userAnswer" placeholder="Type your answer..."/>
+        <button id="submitAnswer">Submit</button>
+        <div id="output" class="output"></div>
+    </div>
+    <script>
+        const puzzles = [
+            {
+                scenario: "You are flying high above the clouds.",
+                answer: "freedom",
+                interpretation: "Flying often represents a sense of freedom and liberation."
+            },
+            {
+                scenario: "You are being chased by a monster.",
+                answer: "fear",
+                interpretation: "Being chased in a dream can indicate avoidance of something in your waking life."
+            },
+            {
+                scenario: "You are lost in a maze.",
+                answer: "confusion",
+                interpretation: "Being lost signifies confusion or uncertainty in your life."
+            },
+            {
+                scenario: "You are underwater trying to breathe.",
+                answer: "anxiety",
+                interpretation: "Dreams of being unable to breathe often indicate feelings of anxiety or suffocation."
+            }
+        ];
+
+        let currentPuzzleIndex = 0;
+
+        function startGame() {
+            showPuzzle();
+            document.getElementById("submitAnswer").onclick = checkAnswer;
+        }
+
+        function showPuzzle() {
+            const dreamScenarioDiv = document.getElementById("dreamScenario");
+            const puzzleDiv = document.getElementById("puzzle");
+            const currentPuzzle = puzzles[currentPuzzleIndex];
+            
+            dreamScenarioDiv.innerText = currentPuzzle.scenario;
+            puzzleDiv.innerText = `What does this dream mean? (Hint: One word)`;
+            document.getElementById("userAnswer").value = '';
+        }
+
+        function checkAnswer() {
+            const userAnswer = document.getElementById("userAnswer").value.toLowerCase();
+            const currentPuzzle = puzzles[currentPuzzleIndex];
+            const outputDiv = document.getElementById("output");
+            
+            if (userAnswer === currentPuzzle.answer) {
+                outputDiv.innerText = `Correct! ${currentPuzzle.interpretation}`;
+                currentPuzzleIndex++;
+                
+                if (currentPuzzleIndex < puzzles.length) {
+                    showPuzzle();
+                } else {
+                    outputDiv.innerText += "\nYou've completed all puzzles!";
+                    document.getElementById("submitAnswer").disabled = true;
+                }
+            } else {
+                outputDiv.innerText = "Incorrect! Try again.";
+            }
+        }
+
+        startGame();
+    </script>
+</body>
+</html>

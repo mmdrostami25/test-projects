@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+
+        .game-container {
+            display: inline-block;
+            margin-top: 50px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Rock, Paper, Scissors</h1>
+    <div class="game-container">
+        <div class="choice">
+            <button id="rock">Rock</button>
+            <button id="paper">Paper</button>
+            <button id="scissors">Scissors</button>
+        </div>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const choices = ['rock', 'paper', 'scissors'];
+        const resultDiv = document.getElementById('result');
+
+        document.getElementById('rock').addEventListener('click', () => playGame('rock'));
+        document.getElementById('paper').addEventListener('click', () => playGame('paper'));
+        document.getElementById('scissors').addEventListener('click', () => playGame('scissors'));
+
+        function playGame(playerChoice) {
+            const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+            const result = determineWinner(playerChoice, computerChoice);
+            resultDiv.textContent = `You chose ${playerChoice}, Computer chose ${computerChoice}. ${result}`;
+        }
+
+        function determineWinner(player, computer) {
+            if (player === computer) {
+                return "It's a tie!";
+            }
+            if (
+                (player === 'rock' && computer === 'scissors') ||
+                (player === 'paper' && computer === 'rock') ||
+                (player === 'scissors' && computer === 'paper')
+            ) {
+                return "You win!";
+            } else {
+                return "You lost!";
+            }
+        }
+    </script>
+    
+</body>
+</html>

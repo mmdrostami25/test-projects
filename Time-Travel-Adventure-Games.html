@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time-Travel-Adventure-Games</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0e68c;
+            color: #333;
+            text-align: center;
+        }
+
+        #game-container {
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            width: 600px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        #options {
+            margin: 15px 0;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin: 5px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>Time-Travel Adventure Game</h1>
+        <div id="narrative"></div>
+        <div id="options"></div>
+        <button id="next-button">Start Time Travel</button>
+    </div>
+    <script>
+        const narrativeDiv = document.getElementById("narrative");
+        const optionsDiv = document.getElementById("options");
+        const nextButton = document.getElementById("next-button");
+
+        const timePeriods = [
+            {
+                text: "Welcome to the Medieval Era! You see a knight in distress. Do you help him or leave him to his fate?",
+                options: [
+                    { text: "Help the knight", outcome: "You saved the knight! He thanks you and offers to join your quest." },
+                    { text: "Leave him", outcome: "You walk away, but the knight curses your name as you leave." }
+                ]
+            },
+            {
+                text: "You've jumped to Ancient Egypt! A pyramid is in the distance. Do you explore or head back?",
+                options: [
+                    { text: "Explore the pyramid", outcome: "Inside, you discover ancient treasures and hieroglyphs!" },
+                    { text: "Head back", outcome: "You miss a chance to uncover historical secrets!" }
+                ]
+            },
+            {
+                text: "Welcome to the Roaring Twenties! You see a jazz club. Do you enter or stay outside?",
+                options: [
+                    { text: "Enter the jazz club", outcome: "Inside, you dance the night away and make new friends!" },
+                    { text: "Stay outside", outcome: "You miss a night filled with music and excitement." }
+                ]
+            }
+        ];
+
+        let currentPeriod = 0;
+
+        // Function to display the current narrative and options
+        function displayNarrative() {
+            const currentScenario = timePeriods[currentPeriod];
+            narrativeDiv.innerText = currentScenario.text;
+            optionsDiv.innerHTML = "";
+
+            currentScenario.options.forEach((option, index) => {
+                const button = document.createElement("button");
+                button.innerText = option.text;
+                button.addEventListener("click", () => {
+                    narrativeDiv.innerText = option.outcome;
+                    optionsDiv.innerHTML = "";  // Clear options after selecting
+                    nextButton.innerText = "Next Time Period";
+                    nextButton.onclick = () => {
+                        currentPeriod++;
+                        if (currentPeriod < timePeriods.length) {
+                            nextButton.innerText = "Start Time Travel";
+                            displayNarrative();
+                        } else {
+                            narrativeDiv.innerText = "You've completed the adventure! Thank you for playing.";
+                            optionsDiv.innerHTML = "";
+                            nextButton.style.display = "none"; // Hide button after completing all periods
+                        }
+                    }
+                });
+                optionsDiv.appendChild(button);
+            });
+        }
+
+        // Start the game
+        nextButton.onclick = displayNarrative;    
+    </script>
+</body>
+</html>

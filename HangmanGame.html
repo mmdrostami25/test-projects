@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hangman Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #wordDisplay {
+            font-size: 24px;
+            letter-spacing: 5px;
+            margin: 20px 0;
+        }
+
+        #keyboard {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .button {
+            margin: 5px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        #message {
+            margin: 20px 0;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hangman Game</h1>
+        <div id="wordDisplay"></div>
+        <div id="keyboard"></div>
+        <div id="message"></div>
+        <button id="restartButton" style="display: none;">Restart</button>
+    </div>
+    <script>
+        const words = ["javascript", "hangman", "developer", "function", "variable", "array", "object"];
+        let selectedWord = "";
+        let guessedLetters = [];
+        let wrongGuesses = 0;
+        const maxWrongGuesses = 6;
+
+        // Initialize game
+        function initGame() {
+            selectedWord = words[Math.floor(Math.random() * words.length)];
+            guessedLetters = [];
+            wrongGuesses = 0;
+            document.getElementById("message").textContent = "";
+            document.getElementById("restartButton").style.display = "none";
+            displayWord();
+            createKeyboard();
+        }
+
+        // Display the current state of the word
+        function displayWord() {
+            const wordDisplay = document.getElementById("wordDisplay");
+            wordDisplay.textContent = selectedWord.split("").map(letter => (
+                guessedLetters.includes(letter) ? letter : "_"
+            )).join(" ");
+            checkWin();
+        }
+
+        // Create the keyboard
+        function createKeyboard() {
+            const keyboard = document.getElementById("keyboard");
+            keyboard.innerHTML = "";
+            const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+            letters.forEach(letter => {
+                const button = document.createElement("button");
+                button.textContent = letter;
+                button.className = "button";
+                button.onclick = () => handleGuess(letter.toLowerCase());
+                keyboard.appendChild(button);
+            });
+        }
+
+        // Handle letter guesses
+        function handleGuess(letter) {
+            if (!guessedLetters.includes(letter)) {
+                guessedLetters.push(letter);
+                if (!selectedWord.includes(letter)) {
+                    wrongGuesses++;
+                }
+                displayWord();
+                updateMessage();
+            }
+        }
+
+        // Update message and check game status
+        function updateMessage() {
+            if (wrongGuesses >= maxWrongGuesses) {
+                document.getElementById("message").textContent = `Game Over! The word was "${selectedWord}".`;
+                endGame();
+            } else {
+                document.getElementById("message").textContent = `Wrong guesses: ${wrongGuesses}/${maxWrongGuesses}`;
+            }
+        }
+
+        // Check for win
+        function checkWin() {
+            if (selectedWord.split("").every(letter => guessedLetters.includes(letter))) {
+                document.getElementById("message").textContent = "Congratulations! You've guessed the word!";
+                endGame();
+            }
+        }
+
+        // End game
+        function endGame() {
+            document.getElementById("keyboard").innerHTML = ""; // Remove keyboard
+            document.getElementById("restartButton").style.display = "block"; // Show restart button
+        }
+
+        // Restart game
+        document.getElementById("restartButton").onclick = initGame;
+
+        // Start the game on load
+        window.onload = initGame;
+    </script>
+</body>
+</html>

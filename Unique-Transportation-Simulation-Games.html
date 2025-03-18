@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unique-Transportation-Simulation-Games</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #e0f7fa;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .game-container {
+            text-align: center;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        .vehicle-creation {
+            margin: 20px 0;
+        }
+
+        #vehicle-display {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+
+        .simulation {
+            margin-top: 20px;
+            font-size: 16px;
+            min-height: 50px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Inventive Journeys: The Unconventional Transport Challenge</h1>
+        <div class="vehicle-creation">
+            <h2>Create Your Vehicle</h2>
+            <select id="vehicle-parts">
+                <option value="hoverboard">Hoverboard</option>
+                <option value="jetpack">Jetpack</option>
+                <option value="balloon">Hot Air Balloon</option>
+                <option value="unicycle">Unicycle</option>
+            </select>
+            <button id="create-vehicle">Create Vehicle</button>
+        </div>
+        <div id="vehicle-display" class="vehicle-display"></div>
+        <div id="simulation" class="simulation"></div>
+    </div>
+    
+    <script>
+        document.getElementById('create-vehicle').addEventListener('click', function() {
+            const vehiclePart = document.getElementById('vehicle-parts').value;
+            displayVehicle(vehiclePart);
+        });
+
+        function displayVehicle(part) {
+            const vehicleDisplay = document.getElementById('vehicle-display');
+            const simulationArea = document.getElementById('simulation');
+            
+            vehicleDisplay.innerText = `You've created a ${part}!`;
+            
+            // Simulate the journey
+            simulateJourney(part);
+        }
+
+        function simulateJourney(vehicle) {
+            const simulationArea = document.getElementById('simulation');
+
+            let journeyMessage;
+            switch(vehicle) {
+                case 'hoverboard':
+                    journeyMessage = "You zoom through the streets, dodging pedestrians with style!";
+                    break;
+                case 'jetpack':
+                    journeyMessage = "You soar into the sky, navigating through clouds and rooftops!";
+                    break;
+                case 'balloon':
+                    journeyMessage = "You drift gently across the landscape, enjoying the view from above.";
+                    break;
+                case 'unicycle':
+                    journeyMessage = "You balance cautiously while navigating through a busy park!";
+                    break;
+                default:
+                    journeyMessage = "You're ready for an adventure!";
+                    break;
+            }
+            
+            simulationArea.innerText = journeyMessage;
+        }
+    </script>
+</body>
+</html>

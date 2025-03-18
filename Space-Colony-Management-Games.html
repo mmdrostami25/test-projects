@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space-Colony-Management-Games</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .game-container {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .status {
+            margin: 20px 0;
+            font-size: 18px;
+        }
+
+        .actions {
+            margin: 20px 0;
+        }
+
+        .output {
+            margin-top: 20px;
+            font-size: 16px;
+            height: 100px;
+            overflow-y: auto;
+            border: 1px solid #fff;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Galactic Colony Manager</h1>
+        <div id="status" class="status"></div>
+        <div id="actions" class="actions"></div>
+        <div id="output" class="output"></div>
+    </div>
+
+    <script>
+        let resources = {
+            food: 100,
+            water: 100,
+            energy: 100,
+            population: 5
+        };
+
+        let gameOutput = [];
+
+        function startGame() {
+            updateStatus();
+            displayActions();
+        }
+
+        function updateStatus() {
+            const statusDiv = document.getElementById("status");
+            statusDiv.innerHTML = `Resources: Food: ${resources.food}, Water: ${resources.water}, Energy: ${resources.energy}, Population: ${resources.population}`;
+        }
+
+        function displayActions() {
+            const actionsDiv = document.getElementById("actions");
+            actionsDiv.innerHTML = ''; // Clear previous actions
+
+            const actions = [
+                { name: "Gather Food", method: gatherFood },
+                { name: "Gather Water", method: gatherWater },
+                { name: "Generate Energy", method: generateEnergy },
+                { name: "Build Shelter", method: buildShelter }
+            ];
+
+            actions.forEach(action => {
+                const actionButton = document.createElement("button");
+                actionButton.innerText = action.name;
+                actionButton.className = "button";
+                actionButton.onclick = action.method;
+                actionsDiv.appendChild(actionButton);
+            });
+        }
+
+        function gatherFood() {
+            const foodGathered = Math.floor(Math.random() * 20) + 1;
+            resources.food += foodGathered;
+            logOutput(`Gathered ${foodGathered} food.`);
+            updateStatus();
+        }
+
+        function gatherWater() {
+            const waterGathered = Math.floor(Math.random() * 15) + 1;
+            resources.water += waterGathered;
+            logOutput(`Gathered ${waterGathered} water.`);
+            updateStatus();
+        }
+
+        function generateEnergy() {
+            const energyGenerated = Math.floor(Math.random() * 10) + 1;
+            resources.energy += energyGenerated;
+            logOutput(`Generated ${energyGenerated} energy.`);
+            updateStatus();
+        }
+
+        function buildShelter() {
+            if (resources.food >= 20 && resources.water >= 10) {
+                resources.food -= 20;
+                resources.water -= 10;
+                resources.population += 2;
+                logOutput("Built a shelter! Population increased by 2.");
+            } else {
+                logOutput("Not enough resources to build a shelter.");
+            }
+            updateStatus();
+        }
+
+        function logOutput(message) {
+            gameOutput.push(message);
+            const outputDiv = document.getElementById("output");
+            outputDiv.innerText = gameOutput.join('\n');
+        }
+
+        startGame();
+    </script>
+</body>
+</html>

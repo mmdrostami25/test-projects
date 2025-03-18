@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character-Driven-Cooking-Competitions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            text-align: center;
+        }
+
+        .container {
+            margin: 50px auto;
+            padding: 20px;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            background-color: #fff;
+            width: 300px;
+        }
+
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Cooking Battle!</h1>
+        <div id="characters">
+            <button onclick="selectCharacter('Chef Mario')">Chef Mario</button>
+            <button onclick="selectCharacter('Baker Betty')">Baker Betty</button>
+            <button onclick="selectCharacter('Grill Master Greg')">Grill Master Greg</button>
+        </div>
+        <div id="challenge" style="display: none;">
+            <h2 id="character-name"></h2>
+            <p id="challenge-text"></p>
+            <button onclick="completeChallenge()">Complete Challenge</button>
+        </div>
+        <div id="score" style="display: none;">
+            <h3>Your Score: <span id="score-count">0</span></h3>
+        </div>
+    </div>
+    <script>
+        let score = 0;
+
+        function selectCharacter(name) {
+            document.getElementById('characters').style.display = 'none';
+            document.getElementById('challenge').style.display = 'block';
+            document.getElementById('character-name').innerText = name;
+            generateChallenge();
+        }
+
+        function generateChallenge() {
+            const challenges = [
+                "Create a delicious spaghetti dish!",
+                "Bake a perfect chocolate cake!",
+                "Grill a mouthwatering steak!"
+            ];
+            const randomChallenge = challenges[Math.floor(Math.random() * challenges.length)];
+            document.getElementById('challenge-text').innerText = randomChallenge;
+        }
+
+        function completeChallenge() {
+            score += Math.floor(Math.random() * 10) + 1; // Random score between 1 to 10
+            document.getElementById('challenge').style.display = 'none';
+            document.getElementById('score').style.display = 'block';
+            document.getElementById('score-count').innerText = score;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!-- 
+Creating a library management system using HTML, CSS, and JavaScript typically involves utilizing a browser-based interface to interact with a backend server that handles the database operations. Since this would require server-side code for managing the database, we can create a simplified version that operates locally in the browser's local storage. Below is an example of a basic library management system using HTML, CSS, and JavaScript:
+
+1. Create an HTML file (`index.html`):
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Library Management System</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>Library Management System</h1>
+
+<div id="bookList"></div>
+
+<div class="input-container">
+    <input type="text" id="titleInput" placeholder="Enter book title">
+    <input type="text" id="authorInput" placeholder="Enter book author">
+    <button onclick="addBook()">Add Book</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
+```
+
+2. Create a CSS file (`styles.css`) to style the interface:
+```css
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+}
+
+.input-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+input[type="text"] {
+    padding: 5px;
+    margin-right: 10px;
+}
+
+button {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+```
+
+3. Create a JavaScript file (`script.js`) to handle the library operations:
+```javascript
+// Retrieve book data from local storage
+const books = JSON.parse(localStorage.getItem('books')) || [];
+
+// Function to display book list
+function displayBooks() {
+    const bookList = document.getElementById('bookList');
+    bookList.innerHTML = '';
+    books.forEach(book => {
+        const bookDiv = document.createElement('div');
+        bookDiv.textContent = `${book.title} by ${book.author}`;
+        bookList.appendChild(bookDiv);
+    });
+}
+
+// Function to add a book
+function addBook() {
+    const title = document.getElementById('titleInput').value;
+    const author = document.getElementById('authorInput').value;
+
+    if (title && author) {
+        const newBook = { title, author };
+        books.push(newBook);
+        localStorage.setItem('books', JSON.stringify(books));
+        displayBooks();
+    } else {
+        alert('Please enter both title and author');
+    }
+}
+
+// Display existing books on page load
+displayBooks();
+```
+
+4. Open the `index.html` file in a web browser. You can now add books by entering the title and author, which will be stored locally in the browser's local storage and displayed on the page.
+
+This simplified library management system uses the browser's local storage to store book data and provides basic functionality to add books. For a more robust system that interacts with a backend server and database, you would need to incorporate server-side code (e.g., using Node.js and Express for the backend).
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Library</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .input-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        input[type="text"] {
+            padding: 5px;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Library Management System</h1>
+
+    <div id="bookList"></div>
+
+    <div class="input-container">
+        <input type="text" id="titleInput" placeholder="Enter book title">
+        <input type="text" id="authorInput" placeholder="Enter book author">
+        <button onclick="addBook()">Add Book</button>
+    </div>
+    <script>
+        // Retrieve book data from local storage
+const books = JSON.parse(localStorage.getItem('books')) || [];
+
+// Function to display book list
+function displayBooks() {
+    const bookList = document.getElementById('bookList');
+    bookList.innerHTML = '';
+    books.forEach(book => {
+        const bookDiv = document.createElement('div');
+        bookDiv.textContent = `${book.title} by ${book.author}`;
+        bookList.appendChild(bookDiv);
+    });
+}
+
+// Function to add a book
+function addBook() {
+    const title = document.getElementById('titleInput').value;
+    const author = document.getElementById('authorInput').value;
+
+    if (title && author) {
+        const newBook = { title, author };
+        books.push(newBook);
+        localStorage.setItem('books', JSON.stringify(books));
+        displayBooks();
+    } else {
+        alert('Please enter both title and author');
+    }
+}
+
+// Display existing books on page load
+displayBooks();
+    </script>
+</body>
+</html>

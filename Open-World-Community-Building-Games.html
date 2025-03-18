@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open-World-Community-Building-Games</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #d0e7ff;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .game-container {
+            text-align: center;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 600px;
+        }
+
+        .map {
+            position: relative;
+            width: 500px;
+            height: 400px;
+            border: 2px solid #333;
+            margin: 20px auto;
+            background-color: #e0f7fa;
+        }
+
+        .item {
+            position: absolute;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .interaction {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Community Builder</h1>
+        <div id="map" class="map">
+            <div class="item" data-npc="1" style="top: 50px; left: 100px;">🏡</div>
+            <div class="item" data-npc="2" style="top: 150px; left: 250px;">🛠️</div>
+            <div class="item" data-npc="3" style="top: 200px; left: 400px;">🌳</div>
+        </div>
+        <div id="interaction" class="interaction"></div>
+        <button id="gatherResource" class="hidden">Gather Resource</button>
+    </div>
+    <script>
+        const npcs = {
+            1: {
+                name: "Alice",
+                message: "Welcome to the community! You can help us grow!",
+                resources: 5
+            },
+            2: {
+                name: "Bob",
+                message: "I need some wood for my project. Can you gather it?",
+                resources: 10
+            },
+            3: {
+                name: "Charlie",
+                message: "Planting trees is essential for our community!",
+                resources: 15
+            }
+        };
+
+        let currentNpcId = null;
+
+        function setupMap() {
+            const items = document.querySelectorAll('.item');
+            items.forEach(item => {
+                item.addEventListener('click', () => {
+                    currentNpcId = item.getAttribute('data-npc');
+                    showInteraction();
+                });
+            });
+        }
+
+        function showInteraction() {
+            const interactionDiv = document.getElementById('interaction');
+            const npc = npcs[currentNpcId];
+            interactionDiv.innerText = `${npc.name}: ${npc.message}`;
+            
+            const gatherButton = document.getElementById('gatherResource');
+            gatherButton.classList.remove('hidden');
+            gatherButton.innerText = `Gather ${npc.resources} resources`;
+            gatherButton.onclick = () => gatherResources(npc.resources);
+        }
+
+        function gatherResources(resources) {
+            const interactionDiv = document.getElementById('interaction');
+            interactionDiv.innerText = `You gathered ${resources} resources!`;
+            document.getElementById('gatherResource').classList.add('hidden');
+        }
+
+        setupMap();
+    </script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dystopian-Society-Games</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        .container {
+            width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 2px solid #fff;
+            border-radius: 10px;
+            background-color: rgba(18, 18, 18, 0.9);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        #story {
+            margin-bottom: 20px;
+        }
+
+        #choices {
+            text-align: center;
+        }
+
+        button {
+            background-color: #c62828;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 5px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #b71c1c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Dystopian Society Game</h1>
+        <div id="story">
+            <p id="current-story">Welcome to the dystopian world. Your choices will shape your fate.</p>
+        </div>
+        <div id="choices"></div>
+    </div>
+    <script>
+        const storyText = [
+            {
+                text: "You wake up in a dark room, the sound of distant sirens fills the air. Do you:",
+                choices: [
+                    { text: "Look for a way out", next: 1 },
+                    { text: "Stay hidden and listen", next: 2 }
+                ]
+            },
+            {
+                text: "You find a window but it's heavily barred. You can either:",
+                choices: [
+                    { text: "Call for help", next: 3 },
+                    { text: "Search for tools to break the bars", next: 4 }
+                ]
+            },
+            {
+                text: "You hear a loud commotion outside. You can either:",
+                choices: [
+                    { text: "Investigate the noise", next: 5 },
+                    { text: "Remain quiet and still", next: 4 }
+                ]
+            },
+            {
+                text: "You cry for help but no one answers. The room grows colder. Game Over.",
+                choices: []
+            },
+            {
+                text: "You manage to find a rusty pipe and begin to pry at the bars.",
+                choices: [
+                    { text: "Keep trying to break free", next: 6 },
+                    { text: "Give up and sit down", next: 3 }
+                ]
+            },
+            {
+                text: "You discover the noise is coming from a group of rebels.",
+                choices: [
+                    { text: "Join them and fight back", next: 7 },
+                    { text: "Stay hidden and observe", next: 3 }
+                ]
+            },
+            {
+                text: "With a final push, you break free! You're outside, but you're not safe yet.",
+                choices: [
+                    { text: "Run into the nearby woods", next: 8 },
+                    { text: "Head towards the noise", next: 5 }
+                ]
+            },
+            {
+                text: "You join the rebels and help them overthrow the regime. You are a hero! The End.",
+                choices: []
+            },
+            {
+                text: "You escape into the woods but you’re lost forever. The End.",
+                choices: []
+            },
+        ];
+
+        let currentStoryIndex = 0;
+
+        function updateGame() {
+            const currentScene = storyText[currentStoryIndex];
+            document.getElementById("current-story").innerText = currentScene.text;
+
+            const choicesDiv = document.getElementById("choices");
+            choicesDiv.innerHTML = ""; // Clear previous choices
+
+            currentScene.choices.forEach(choice => {
+                const button = document.createElement("button");
+                button.innerText = choice.text;
+                button.onclick = () => {
+                    currentStoryIndex = choice.next;
+                    updateGame();
+                };
+                choicesDiv.appendChild(button);
+            });
+
+            if (currentScene.choices.length === 0) {
+                document.getElementById("current-story").innerText += "\nThe story has ended.";
+            }
+        }
+
+        // Start the game
+        updateGame();
+    </script>
+</body>
+</html>

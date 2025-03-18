@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual-Cooking-Classes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffe5b4;
+            color: #5c4033;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .game-container {
+            text-align: center;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .challenges {
+            margin: 20px 0;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #ffb74d;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #ffa726;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Virtual Cooking Classes</h1>
+        <div id="lesson"></div>
+        <div id="challenges" class="challenges"></div>
+        <button id="nextButton" class="hidden">Next Lesson</button>
+    </div>
+
+    <script>
+        const lessonElement = document.getElementById("lesson");
+        const challengesElement = document.getElementById("challenges");
+        const nextButton = document.getElementById("nextButton");
+
+        const lessonsData = [
+            {
+                lesson: "Welcome to your first cooking lesson! Today, we'll learn how to chop vegetables safely. What should you do first?",
+                challenges: [
+                    { text: "Choose the right knife.", correct: true },
+                    { text: "Start chopping without prep.", correct: false },
+                    { text: "Wash your hands.", correct: true }
+                ]
+            },
+            {
+                lesson: "Next, let's learn about sautéing. Which oil is best for sautéing vegetables?",
+                challenges: [
+                    { text: "Olive oil.", correct: true },
+                    { text: "Butter.", correct: false },
+                    { text: "Vegetable oil.", correct: false }
+                ]
+            },
+            {
+                lesson: "Great! Now you can prepare a simple stir-fry. What is the key step in stir-frying?",
+                challenges: [
+                    { text: "Cook on high heat.", correct: true },
+                    { text: "Stir occasionally.", correct: false },
+                    { text: "Use a lot of oil.", correct: false }
+                ]
+            }
+        ];
+
+        let currentLessonIndex = 0;
+
+        function startGame() {
+            showLesson(currentLessonIndex);
+        }
+
+        function showLesson(index) {
+            const lesson = lessonsData[index];
+            lessonElement.innerText = lesson.lesson;
+            challengesElement.innerHTML = "";
+            nextButton.classList.add("hidden");
+
+            lesson.challenges.forEach(challenge => {
+                const button = document.createElement("button");
+                button.innerText = challenge.text;
+
+                button.addEventListener("click", () => {
+                    if (challenge.correct) {
+                        alert("Correct! Well done.");
+                        nextButton.classList.remove("hidden");
+                    } else {
+                        alert("Oops! That's not right. Try again.");
+                    }
+                });
+                challengesElement.appendChild(button);
+            });
+
+            if (index === lessonsData.length - 1) {
+                nextButton.innerText = "Finish";
+                nextButton.addEventListener("click", resetGame);
+            } else {
+                nextButton.innerText = "Next Lesson";
+                nextButton.addEventListener("click", () => {
+                    currentLessonIndex++;
+                    showLesson(currentLessonIndex);
+                });
+            }
+        }
+
+        function resetGame() {
+            currentLessonIndex = 0;
+            startGame();
+        }
+
+        startGame();
+    </script>
+</body>
+</html>

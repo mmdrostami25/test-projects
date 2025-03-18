@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time-Strategy-with-Environmental-Themes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0f7fa;
+            text-align: center;
+        }
+
+        .container {
+            margin: 50px auto;
+            padding: 20px;
+            border: 2px solid #00796b;
+            border-radius: 10px;
+            background-color: #ffffff;
+            width: 400px;
+        }
+
+        #game-area {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .environment {
+            width: 100px;
+            height: 100px;
+            border: 1px solid #4db6ac;
+            border-radius: 5px;
+            line-height: 100px;
+            background-color: #a7ffeb;
+            cursor: pointer;
+        }
+
+        .environment:hover {
+            background-color: #80deea;
+        }
+
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #00796b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #004d40;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Eco-Strategy Battle!</h1>
+        <div id="game-area">
+            <div class="environment" id="forest" onclick="captureArea('forest')">Forest (0)</div>
+            <div class="environment" id="ocean" onclick="captureArea('ocean')">Ocean (0)</div>
+            <div class="environment" id="desert" onclick="captureArea('desert')">Desert (0)</div>
+        </div>
+        <div id="controls">
+            <button onclick="deployUnit('forest')">Deploy Unit to Forest</button>
+            <button onclick="deployUnit('ocean')">Deploy Unit to Ocean</button>
+            <button onclick="deployUnit('desert')">Deploy Unit to Desert</button>
+        </div>
+        <div id="score">
+            <h3>Score: <span id="score-count">0</span></h3>
+        </div>
+    </div>
+    <script>
+        let score = 0;
+        let forestCount = 0;
+        let oceanCount = 0;
+        let desertCount = 0;
+
+        function captureArea(area) {
+            if (area === 'forest') {
+                forestCount++;
+                document.getElementById('forest').innerText = `Forest (${forestCount})`;
+            } else if (area === 'ocean') {
+                oceanCount++;
+                document.getElementById('ocean').innerText = `Ocean (${oceanCount})`;
+            } else if (area === 'desert') {
+                desertCount++;
+                document.getElementById('desert').innerText = `Desert (${desertCount})`;
+            }
+            updateScore();
+        }
+
+        function deployUnit(area) {
+            if (area === 'forest' && forestCount > 0) {
+                score += 10; // Earn points for deploying in the forest
+            } else if (area === 'ocean' && oceanCount > 0) {
+                score += 15; // Earn points for deploying in the ocean
+            } else if (area === 'desert' && desertCount > 0) {
+                score += 5; // Earn points for deploying in the desert
+            }
+            updateScore();
+        }
+
+        function updateScore() {
+            document.getElementById('score-count').innerText = score;
+        }
+    </script>
+</body>
+</html>

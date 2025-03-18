@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Social-Deduction-Games</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            text-align: center;
+        }
+
+        #game-container {
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            width: 600px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        #game-actions {
+            margin: 20px 0;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin: 5px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #chat-area {
+            margin-top: 20px;
+        }
+
+        #chat-log {
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: #fafafa;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>Social Deduction Game</h1>
+        <div id="player-info"></div>
+        <div id="game-actions">
+            <button id="start-game">Start Game</button>
+            <div id="objectives"></div>
+        </div>
+        <div id="chat-area">
+            <input type="text" id="chat-input" placeholder="Type your message...">
+            <button id="send-chat">Send</button>
+        </div>
+        <div id="chat-log"></div>
+    </div>
+    <script>
+        const startGameButton = document.getElementById("start-game");
+        const playerInfo = document.getElementById("player-info");
+        const objectives = document.getElementById("objectives");
+        const chatInput = document.getElementById("chat-input");
+        const sendChatButton = document.getElementById("send-chat");
+        const chatLog = document.getElementById("chat-log");
+
+        let players = [];
+        let gameStarted = false;
+        let roles = ["Spy", "Innocent", "Innocent", "Traitor"];
+        let currentObjectives = [];
+
+        // Function to start the game
+        startGameButton.addEventListener("click", () => {
+            if (!gameStarted) {
+                gameStarted = true;
+                distributeRoles();
+                displayObjectives();
+                playerInfo.innerHTML = `Game Started! Players: ${players.length}, Roles have been assigned.`;
+            }
+        });
+
+        // Distribute roles randomly
+        function distributeRoles() {
+            roles.sort(() => Math.random() - 0.5);
+            players = roles.map((role, index) => {
+                return { name: `Player ${index + 1}`, role: role, completed: false };
+            });
+        }
+
+        // Display player objectives
+        function displayObjectives() {
+            currentObjectives = players.map(player => {
+                if (player.role === "Spy") return "Identify the Traitor!";
+                if (player.role === "Innocent") return "Complete your tasks!";
+                if (player.role === "Traitor") return "Sabotage the Innocents!";
+                return "";
+            });
+
+            currentObjectives.forEach((objective, index) => {
+                objectives.innerHTML += `<p>${players[index].name}: ${objective}</p>`;
+            });
+        }
+
+        // Handle chat
+        sendChatButton.addEventListener("click", () => {
+            const userMessage = chatInput.value;
+            if (userMessage) {
+                chatLog.innerHTML += `<p>${userMessage}</p>`;
+                chatInput.value = "";
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aquatic-Exploration-Games</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0');
+            background-size: cover;
+            color: white;
+        }
+
+        .container {
+            margin: 50px auto;
+            padding: 20px;
+            border: 2px solid #fff;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.8);
+            width: 400px;
+            text-align: center;
+        }
+
+        #underwater-world {
+            height: 200px;
+            border: 2px solid #fff;
+            position: relative;
+            background: linear-gradient(to bottom, #005b96, #00aaff);
+        }
+
+        #stats {
+            margin-top: 20px;
+        }
+
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #00796b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #004d40;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Aquatic Exploration Adventure</h1>
+        <div id="game-area">
+            <div id="underwater-world"></div>
+            <div id="stats">
+                <h3>Your Stats</h3>
+                <p>Oxygen Level: <span id="oxygen">100</span></p>
+                <p>Collected Items: <span id="items">0</span></p>
+            </div>
+        </div>
+        <button id="explore">Explore</button>
+        <p id="message"></p>
+    </div>
+    <script>
+        let oxygen = 100;
+        let collectedItems = 0;
+
+        document.getElementById('explore').addEventListener('click', function() {
+            if (oxygen > 0) {
+                const findItem = Math.random() < 0.5; // 50% chance to find an item
+                if (findItem) {
+                    collectedItems++;
+                    document.getElementById('message').innerText = 'You found a mysterious artifact!';
+                } else {
+                    document.getElementById('message').innerText = 'No items found this time. Keep exploring!';
+                }
+                
+                oxygen -= 10; // Reduce oxygen with each exploration
+                updateStats();
+            } else {
+                document.getElementById('message').innerText = 'You need to surface for air!';
+            }
+        });
+
+        function updateStats() {
+            document.getElementById('oxygen').innerText = oxygen;
+            document.getElementById('items').innerText = collectedItems;
+
+            if (oxygen <= 0) {
+                document.getElementById('explore').disabled = true; // Disable the explore button
+                document.getElementById('message').innerText = 'Game Over! You ran out of oxygen.';
+            }
+        }
+
+        // Set an interval to gradually reduce oxygen
+        setInterval(() => {
+            if (oxygen > 0) {
+                oxygen--;
+                updateStats();
+            }
+        }, 5000);
+    </script>
+</body>
+</html>

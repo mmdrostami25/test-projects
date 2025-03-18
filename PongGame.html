@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PongGame</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #000;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        #gameCanvas {
+            border: 1px solid white;
+        }
+
+        #scoreboard {
+            margin: 10px;
+            font-size: 24px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin-top: 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="800" height="400"></canvas>
+    <div id="scoreboard">
+        <h2>Player 1: <span id="player1Score">0</span> | Player 2: <span id="player2Score">0</span></h2>
+    </div>
+    <button id="restartButton" style="display: none;">Restart</button>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const paddleWidth = 10, paddleHeight = 100, ballSize = 10;
+        let paddle1Y = (canvas.height - paddleHeight) / 2, paddle2Y = (canvas.height - paddleHeight) / 2;
+        let ballX = canvas.width / 2, ballY = canvas.height / 2, ballSpeedX = 5, ballSpeedY = 3;
+        let player1Score = 0, player2Score = 0;
+        const winningScore = 5;
+
+        function draw() {
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw paddles
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, paddle1Y, paddleWidth, paddleHeight);
+            ctx.fillRect(canvas.width - paddleWidth, paddle2Y, paddleWidth, paddleHeight);
+
+            // Draw ball
+            ctx.beginPath();
+            ctx.arc(ballX, ballY, ballSize, 0, Math.PI * 2);
+            ctx.fillStyle = 'white';
+            ctx.fill();
+            ctx.closePath();
+
+            // Update position
+            ballX += ballSpeedX;
+            ballY += ballSpeedY;
+
+            // Ball collision with top and bottom walls
+            if (ballY <= 0 || ballY >= canvas.height) {
+                ballSpeedY = -ballSpeedY;
+            }
+
+            // Ball collision with paddles
+            if (ballX <= paddleWidth && ballY > paddle1Y && ballY < paddle1Y + paddleHeight) {
+                ballSpeedX = -ballSpeedX;
+            } else if (ballX >= canvas.width - paddleWidth && ballY > paddle2Y && ballY < paddle2Y + paddleHeight) {
+                ballSpeedX = -ballSpeedX;
+            }
+
+            // Check for scoring
+            if (ballX < 0) {
+                player2Score++;
+                resetBall();
+            } else if (ballX > canvas.width) {
+                player1Score++;
+                resetBall();
+            }
+
+            // Update scoreboard
+            document.getElementById('player1Score').textContent = player1Score;
+            document.getElementById('player2Score').textContent = player2Score;
+
+            // Check for winning condition
+            if (player1Score >= winningScore || player2Score >= winningScore) {
+                endGame();
+            }
+        }
+
+        function resetBall() {
+            ballX = canvas.width / 2;
+            ballY = canvas.height / 2;
+            ballSpeedX = ballSpeedX > 0 ? 5 : -5; // ensure ball moves in the correct direction
+            ballSpeedY = 3;
+        }
+
+        function endGame() {
+            clearInterval(gameInterval);
+            document.getElementById('restartButton').style.display = 'block';
+        }
+
+        // Control paddles
+        document.addEventListener('keydown', (event) => {
+            switch (event.key) {
+                case 'w':
+                    if (paddle1Y > 0) paddle1Y -= 20;
+                    break;
+                case 's':
+                    if (paddle1Y < canvas.height - paddleHeight) paddle1Y += 20;
+                    break;
+                case 'ArrowUp':
+                    if (paddle2Y > 0) paddle2Y -= 20;
+                    break;
+                case 'ArrowDown':
+                    if (paddle2Y < canvas.height - paddleHeight) paddle2Y += 20;
+                    break;
+            }
+        });
+
+        // Restart button functionality
+        document.getElementById('restartButton').addEventListener('click', () => {
+            player1Score = 0;
+            player2Score = 0;
+            resetBall();
+            document.getElementById('restartButton').style.display = 'none';
+            gameInterval = setInterval(draw, 1000 / 60);
+        });
+
+        let gameInterval = setInterval(draw, 1000 / 60); // 60 frames per second
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual-Reality-Adventure-Trails</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0f7fa;
+            color: #333;
+            text-align: center;
+        }
+
+        #game-container {
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            width: 600px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        #exploration-area {
+            height: 300px;
+            border: 2px dashed #007bff;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        #actions button {
+            padding: 10px 15px;
+            margin: 5px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #actions button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>Virtual Reality Adventure Trail</h1>
+        <div id="narrative"></div>
+        <div id="exploration-area"></div>
+        <div id="actions">
+            <button id="explore-button">Explore</button>
+            <button id="interact-button">Interact</button>
+        </div>
+    </div>
+    <script>
+        const narrativeDiv = document.getElementById("narrative");
+        const explorationArea = document.getElementById("exploration-area");
+        const exploreButton = document.getElementById("explore-button");
+        const interactButton = document.getElementById("interact-button");
+
+        const narrative = [
+            "You find yourself at the edge of a mystical forest. The air is filled with the sound of rustling leaves.",
+            "As you proceed deeper into the forest, you encounter a shimmering pond surrounded by colorful flowers.",
+            "In the distance, you hear the faint sound of a waterfall cascading down a rocky cliff.",
+            "You arrive at an ancient ruin where secrets of the past are waiting to be uncovered."
+        ];
+
+        let currentLocation = 0;
+
+        // Function to explore new areas
+        exploreButton.addEventListener("click", () => {
+            if (currentLocation < narrative.length) {
+                narrativeDiv.innerText = narrative[currentLocation];
+                explorationArea.innerText = "You are exploring...";
+                currentLocation++;
+            } else {
+                narrativeDiv.innerText = "You have explored all the areas. Time to interact!";
+                explorationArea.innerText = "";
+                exploreButton.disabled = true; // Disable explore button when done
+            }
+        });
+
+        // Function to interact with the environment (simplified)
+        interactButton.addEventListener("click", () => {
+            if (currentLocation > 0) {
+                explorationArea.innerText = "You interacted with the environment!";
+            } else {
+                explorationArea.innerText = "There is nothing to interact with yet.";
+            }
+        });
+    </script>
+</body>
+</html>

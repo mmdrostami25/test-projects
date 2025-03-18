@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Base Adventures</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        #game {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        #choices {
+            margin-top: 20px;
+        }
+
+        button {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div id="game">
+        <h1>Text-Based Adventure Game</h1>
+        <p id="story-text">Welcome to the adventure! Choose your path wisely.</p>
+        <div id="choices"></div>
+    </div>
+
+    <script>
+        const storyText = document.getElementById("story-text");
+        const choicesDiv = document.getElementById("choices");
+
+        const story = [
+            {
+                text: "You wake up in a dark forest. What will you do?",
+                choices: [
+                    { text: "Explore the forest", nextStory: 1 },
+                    { text: "Climb a tree", nextStory: 2 }
+                ]
+            },
+            {
+                text: "You find a path leading to a village. Do you want to follow it?",
+                choices: [
+                    { text: "Yes", nextStory: 3 },
+                    { text: "No", nextStory: 4 }
+                ]
+            },
+            {
+                text: "You see a beautiful view from the top. Do you want to go back down?",
+                choices: [
+                    { text: "Yes", nextStory: 1 },
+                    { text: "No, stay up here", nextStory: 5 }
+                ]
+            },
+            {
+                text: "You reach the village and find friendly villagers. You win!",
+                choices: []
+            },
+            {
+                text: "You decide to wander and soon get lost. Game over.",
+                choices: []
+            },
+            {
+                text: "You enjoy the view for a long time and eventually become part of the forest. Game over.",
+                choices: []
+            }
+        ];
+
+        function startGame() {
+            showStory(0);
+        }
+
+        function showStory(storyIndex) {
+            const currentStory = story[storyIndex];
+            storyText.textContent = currentStory.text;
+            choicesDiv.innerHTML = '';
+
+            currentStory.choices.forEach(choice => {
+                const button = document.createElement("button");
+                button.textContent = choice.text;
+                button.onclick = () => showStory(choice.nextStory);
+                choicesDiv.appendChild(button);
+            });
+        }
+
+        startGame();
+    </script>
+</body>
+</html>

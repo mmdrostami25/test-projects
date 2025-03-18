@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educational-Historical-Roleplaying</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .game-container {
+            text-align: center;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        .location {
+            margin: 20px 0;
+        }
+
+        .location-btn {
+            margin: 5px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .character {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+
+        .interaction {
+            margin-top: 20px;
+            font-size: 16px;
+            min-height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Time Traveler: Ancient Civilizations</h1>
+        <div class="location">
+            <h2 id="location-title">Select a Location</h2>
+            <button class="location-btn" data-location="egypt">Ancient Egypt</button>
+            <button class="location-btn" data-location="greece">Ancient Greece</button>
+            <button class="location-btn" data-location="rome">Ancient Rome</button>
+        </div>
+        <div id="character" class="character"></div>
+        <div id="interaction" class="interaction"></div>
+    </div>
+    
+    <script>
+        const characters = {
+            egypt: {
+                name: "Cleopatra",
+                message: "Welcome, traveler! I can tell you about the Nile and our pyramids. Can you help me find the missing scroll?"
+            },
+            greece: {
+                name: "Socrates",
+                message: "Ah, a philosopher from the future! Let's discuss the nature of knowledge. Can you bring me the lost tablet?"
+            },
+            rome: {
+                name: "Julius Caesar",
+                message: "Hail, traveler! You have come to witness the glory of Rome. Can you assist in gathering the legions?"
+            }
+        };
+
+        document.querySelectorAll('.location-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const location = button.getAttribute('data-location');
+                displayCharacter(location);
+            });
+        });
+
+        function displayCharacter(location) {
+            const characterDiv = document.getElementById('character');
+            const interactionDiv = document.getElementById('interaction');
+            const character = characters[location];
+            
+            characterDiv.innerText = `${character.name} says:`;
+            interactionDiv.innerText = character.message;
+        }
+    </script>
+</body>
+</html>

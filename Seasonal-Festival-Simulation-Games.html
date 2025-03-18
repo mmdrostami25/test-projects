@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seasonal-Festival-Simulation-Games</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #fff3e0;
+            color: #3e2723;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .game-container {
+            text-align: center;
+            background: #ffe0b2;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .festival-details {
+            margin: 20px 0;
+            font-size: 18px;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .button {
+            background-color: #ff5722;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #e64a19;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Seasonal Festival Simulator</h1>
+        <div id="festival-details" class="festival-details"></div>
+        <button id="organize-button" class="button" onclick="organizeFestival()">Organize Festival</button>
+        <div id="result" class="result"></div>
+    </div>
+    <script>
+        const activities = [
+            "Food Truck",
+            "Music Stage",
+            "Art Exhibit",
+            "Petting Zoo",
+            "Games Area",
+            "Crafting Booth",
+            "Fireworks Show"
+        ];
+        
+        let attendeeSatisfaction = 50; // Initial satisfaction level
+        
+        function organizeFestival() {
+            const chosenActivities = [];
+            const randomActivityCount = Math.floor(Math.random() * activities.length) + 1;
+        
+            for (let i = 0; i < randomActivityCount; i++) {
+                const randomIndex = Math.floor(Math.random() * activities.length);
+                chosenActivities.push(activities[randomIndex]);
+            }
+        
+            // Calculate satisfaction based on number of activities
+            attendeeSatisfaction += randomActivityCount * 10; // Increase satisfaction
+            attendeeSatisfaction = Math.min(100, attendeeSatisfaction); // Cap at 100
+        
+            const festivalDetails = document.getElementById("festival-details");
+            festivalDetails.innerHTML = `Activities Organized: ${chosenActivities.join(", ")}.`;
+            
+            // Show satisfaction result
+            const result = document.getElementById("result");
+            result.innerText = `Attendee Satisfaction: ${attendeeSatisfaction}%`;
+        }
+        
+        // Start with a welcome message
+        const festivalDetails = document.getElementById("festival-details");
+        festivalDetails.innerHTML = "Welcome to the Seasonal Festival Simulator! Click the button to organize your festival.";
+    </script>
+</body>
+</html>

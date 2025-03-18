@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educational Games</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        #game {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        #question-area {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        input {
+            padding: 10px;
+            width: 80%;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #status {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        #score {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div id="game">
+        <h1>Math Quiz Game</h1>
+        <div id="question-area">
+            <p id="question">Question will appear here</p>
+            <input type="number" id="answer" placeholder="Your answer" />
+            <button id="submit-answer">Submit</button>
+        </div>
+        <p id="status"></p>
+        <p id="score">Score: 0</p>
+        <button id="reset-button" onclick="resetGame()">Reset Game</button>
+    </div>
+
+    <script>
+        let score = 0;
+        let currentQuestion;
+
+        // Initialize the game
+        function startGame() {
+            score = 0;
+            document.getElementById('score').textContent = `Score: ${score}`;
+            generateQuestion();
+        }
+
+        // Generate a new question
+        function generateQuestion() {
+            const num1 = Math.floor(Math.random() * 10) + 1; // Random number between 1-10
+            const num2 = Math.floor(Math.random() * 10) + 1; // Random number between 1-10
+            currentQuestion = { num1, num2, answer: num1 + num2 }; // Sum of the two numbers
+            document.getElementById('question').textContent = `What is ${num1} + ${num2}?`;
+            document.getElementById('status').textContent = ''; // Clear previous status
+            document.getElementById('answer').value = ''; // Clear input
+        }
+
+        // Handle answer submission
+        document.getElementById('submit-answer').onclick = function() {
+            const userAnswer = Number(document.getElementById('answer').value);
+            if (userAnswer === currentQuestion.answer) {
+                score++;
+                document.getElementById('status').textContent = 'Correct!';
+            } else {
+                document.getElementById('status').textContent = `Incorrect! The correct answer was ${currentQuestion.answer}.`;
+            }
+            document.getElementById('score').textContent = `Score: ${score}`;
+            generateQuestion();
+        };
+
+        // Reset the game
+        function resetGame() {
+            startGame();
+        }
+
+        // Start the game on load
+        startGame();
+    </script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal-Growth-Adventure-Games</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #e3f2fd;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .game-container {
+            text-align: center;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        .story {
+            font-size: 18px;
+            margin: 20px 0;
+        }
+
+        .choices {
+            margin: 20px 0;
+        }
+
+        .choice-button {
+            display: block;
+            margin: 5px;
+            padding: 10px;
+            background-color: #64b5f6;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .choice-button:hover {
+            background-color: #42a5f5;
+        }
+
+        .start-button {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #42b983;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Journey to Self: A Personal Growth Adventure</h1>
+        <div id="story" class="story"></div>
+        <div id="choices" class="choices"></div>
+        <button id="start-game" class="start-button">Start Your Journey</button>
+    </div>
+    <script>
+        const storyElement = document.getElementById('story');
+        const choicesElement = document.getElementById('choices');
+        const startButton = document.getElementById('start-game');
+
+        const gameData = {
+            start: {
+                text: "Welcome to your personal growth journey! You are at a crossroads, facing important life choices. Where would you like to begin?",
+                choices: [
+                    { text: "Explore your passions", next: "passions" },
+                    { text: "Face your fears", next: "fears" },
+                ]
+            },
+            passions: {
+                text: "You decide to explore your passions. What do you want to do?",
+                choices: [
+                    { text: "Take a painting class", next: "painting" },
+                    { text: "Join a dance group", next: "dance" },
+                ]
+            },
+            fears: {
+                text: "You choose to confront your fears. How will you do it?",
+                choices: [
+                    { text: "Speak in public", next: "publicSpeaking" },
+                    { text: "Go skydiving", next: "skydiving" },
+                ]
+            },
+            painting: {
+                text: "You took a painting class and discovered a new passion! Creativity flows through you. What will you do next?",
+                choices: [
+                    { text: "Practice more", next: "passions" },
+                    { text: "Share your art", next: "shareArt" },
+                ]
+            },
+            dance: {
+                text: "Joining the dance group helped you connect with others. You feel a sense of belonging. What next?",
+                choices: [
+                    { text: "Perform at a local event", next: "perform" },
+                    { text: "Learn a new style", next: "newStyle" },
+                ]
+            },
+            publicSpeaking: {
+                text: "You delivered a speech and felt empowered. Facing your fear has boosted your confidence. What will you do next?",
+                choices: [
+                    { text: "Help others with public speaking", next: "helpOthers" },
+                    { text: "Take up writing", next: "writing" },
+                ]
+            },
+            skydiving: {
+                text: "You faced your fear and went skydiving! The thrill was exhilarating. How will you channel this courage?",
+                choices: [
+                    { text: "Encourage others to face their fears", next: "encourageOthers" },
+                    { text: "Try extreme sports", next: "extremeSports" },
+                ]
+            },
+            // Additional choices and outcomes can be added here.
+        };
+
+        startButton.addEventListener('click', startGame);
+
+        function startGame() {
+            startButton.style.display = 'none';
+            showStory('start');
+        }
+
+        function showStory(key) {
+            const { text, choices } = gameData[key];
+            storyElement.innerText = text;
+            choicesElement.innerHTML = choices.map(choice => {
+                return `<button class="choice-button" onclick="showStory('${choice.next}')">${choice.text}</button>`;
+            }).join('');
+        }
+    </script>
+</body>
+</html>

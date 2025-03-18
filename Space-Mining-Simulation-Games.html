@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space-Mining-Simulation-Games</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a2e;
+            color: #ffffff;
+            text-align: center;
+        }
+
+        #game-container {
+            margin: 20px auto;
+            padding: 20px;
+            background: #16213e;
+            width: 400px;
+            border-radius: 10px;
+            border: 2px solid #0f3460;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        button {
+            padding: 10px 15px;
+            margin: 10px;
+            border: none;
+            background-color: #0f3460;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #1a1a2e;
+        }
+
+        #messages {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>Space Mining Simulation Game</h1>
+        <div id="stats">
+            <p>Resources: <span id="resources">0</span></p>
+            <p>Tool Level: <span id="tool-level">1</span></p>
+        </div>
+        <button id="mine-button">Mine Asteroid</button>
+        <button id="upgrade-button">Upgrade Tool (Cost: 10 Resources)</button>
+        <div id="messages"></div>
+    </div>
+    <script>
+        let resources = 0;
+        let toolLevel = 1;
+        const resourcesElement = document.getElementById("resources");
+        const toolLevelElement = document.getElementById("tool-level");
+        const messagesDiv = document.getElementById("messages");
+
+        // Function to mine asteroid
+        function mineAsteroid() {
+            const minedResources = Math.floor(Math.random() * 5) + toolLevel; // Resources based on tool level
+            resources += minedResources;
+            resourcesElement.innerText = resources;
+            messagesDiv.innerText = `You mined ${minedResources} resources!`;
+        }
+
+        // Function to upgrade tool
+        function upgradeTool() {
+            if (resources >= 10) {
+                resources -= 10;
+                toolLevel++;
+                resourcesElement.innerText = resources;
+                toolLevelElement.innerText = toolLevel;
+                messagesDiv.innerText = "Tool upgraded successfully!";
+            } else {
+                messagesDiv.innerText = "Not enough resources to upgrade!";
+            }
+        }
+
+        // Add event listeners to buttons
+        document.getElementById("mine-button").addEventListener("click", mineAsteroid);
+        document.getElementById("upgrade-button").addEventListener("click", upgradeTool);
+    </script>
+</body>
+</html>

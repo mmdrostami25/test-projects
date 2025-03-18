@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplayer-Island-Survival-Games</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0');
+            background-size: cover;
+            color: white;
+            text-align: center;
+        }
+
+        .container {
+            margin: 50px auto;
+            padding: 20px;
+            border: 2px solid #fff;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            width: 400px;
+        }
+
+        #game-area {
+            margin-top: 20px;
+        }
+
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #00796b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #004d40;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Island Survival Adventure</h1>
+        <div id="game-area">
+            <div id="resources">
+                <h3>Available Resources</h3>
+                <ul>
+                    <li>Wood: <span id="wood">0</span></li>
+                    <li>Stone: <span id="stone">0</span></li>
+                    <li>Food: <span id="food">0</span></li>
+                </ul>
+                <button id="gather-wood">Gather Wood</button>
+                <button id="gather-stone">Gather Stone</button>
+                <button id="gather-food">Gather Food</button>
+            </div>
+            <div id="crafting">
+                <h3>Crafting</h3>
+                <button id="craft-shelter">Craft Shelter</button>
+                <p id="craft-message"></p>
+            </div>
+        </div>
+    </div>
+    <script>
+        let resources = {
+            wood: 0,
+            stone: 0,
+            food: 0
+        };
+
+        document.getElementById('gather-wood').addEventListener('click', function() {
+            resources.wood++;
+            updateResources();
+        });
+
+        document.getElementById('gather-stone').addEventListener('click', function() {
+            resources.stone++;
+            updateResources();
+        });
+
+        document.getElementById('gather-food').addEventListener('click', function() {
+            resources.food++;
+            updateResources();
+        });
+
+        document.getElementById('craft-shelter').addEventListener('click', function() {
+            if (resources.wood >= 5 && resources.stone >= 2) {
+                resources.wood -= 5;
+                resources.stone -= 2;
+                document.getElementById('craft-message').innerText = 'Shelter crafted!';
+            } else {
+                document.getElementById('craft-message').innerText = 'Not enough resources!';
+            }
+            updateResources();
+        });
+
+        function updateResources() {
+            document.getElementById('wood').innerText = resources.wood;
+            document.getElementById('stone').innerText = resources.stone;
+            document.getElementById('food').innerText = resources.food;
+        }
+
+        updateResources();
+    </script>
+</body>
+</html>

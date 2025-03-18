@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MultiPlayerGames</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        #game {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(10, 30px);
+            grid-gap: 5px;
+            margin: 20px 0;
+        }
+
+        .cell {
+            width: 30px;
+            height: 30px;
+            background-color: #b0c4de;
+            cursor: pointer;
+        }
+
+        .cell.hit {
+            background-color: #ff4500;
+        }
+
+        .cell.miss {
+            background-color: #dcdcdc;
+        }
+
+        #status {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        button {
+            display: block;
+            margin: auto;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div id="game">
+        <h1>Multiplayer Battleship Game</h1>
+        <div id="player-area">
+            <h2>Your Board</h2>
+            <div id="player-board" class="board"></div>
+        </div>
+        <div id="enemy-area">
+            <h2>Enemy Board</h2>
+            <div id="enemy-board" class="board"></div>
+        </div>
+        <p id="status"></p>
+        <button id="reset-button" onclick="resetGame()">Reset Game</button>
+    </div>
+
+    <script>
+        const playerBoard = document.getElementById('player-board');
+        const enemyBoard = document.getElementById('enemy-board');
+        const statusText = document.getElementById('status');
+
+        const boardSize = 10;
+        let playerHits = 0;
+        let enemyHits = 0;
+        let playerTurn = true;
+
+        // Initialize boards
+        function createBoard(boardElement, isEnemy) {
+            for (let i = 0; i < boardSize * boardSize; i++) {
+                const cell = document.createElement('div');
+                cell.classList.add('cell');
+                cell.dataset.index = i;
+
+                if (isEnemy) {
+                    cell.onclick = () => { if (playerTurn) makeGuess(cell); }; // Click to guess for enemy board
+                } else {
+                    cell.onclick = () => alert("Place ships on your board."); // No action for player board
+                }
+
+                boardElement.appendChild(cell);
+            }
+        }
+
+        // Make a guess on the enemy board
+        function makeGuess(cell) {
+            if (!cell.classList.contains('hit') && !cell.classList.contains('miss')) {
+                if (Math.random() < 0.5) { // Random hit/miss simulation
+                    cell.classList.add('hit');
+                    playerHits++;
+                    updateStatus('Hit!');
+                } else {
+                    cell.classList.add('miss');
+                    updateStatus('Miss!');
+                }
+                playerTurn = false;
+                setTimeout(enemyTurn, 1000); // Simulate enemy turn
+            }
+        }
+
+        // Simulates enemy's turn
+        function enemyTurn() {
+            const enemyCells = [...enemyBoard.children];
+            const availableCells = enemyCells.filter(cell => !cell.classList.contains('hit') && !cell.classList.contains('miss'));
+
+            if (availableCells.length > 0) {
+                const randomCell = availableCells[Math.floor(Math.random() * availableCells.length)];
+                if (Math.random() < 0.5) { // Random hit/miss simulation
+                    randomCell.classList.add('hit');
+                    enemyHits++;
+                    updateStatus('Enemy hit your ship!');
+                } else {
+                    randomCell.classList.add('miss');
+                    updateStatus('Enemy missed!');
+                }
+            }
+            playerTurn = true;
+        }
+
+        // Update status text
+        function updateStatus(message) {
+            statusText.textContent = message;
+            checkWinCondition();
+        }
+
+        // Check if someone has won
+        function checkWinCondition() {
+            if (playerHits === 10) {
+                alert("You win!");
+                resetGame();
+            } else if (enemyHits === 10) {
+                alert("Enemy wins!");
+                resetGame();
+            }
+        }
+
+        // Reset the game
+        function resetGame() {
+            playerHits = 0;
+            enemyHits = 0;
+            playerTurn = true;
+            playerBoard.innerHTML = '';
+            enemyBoard.innerHTML = '';
+            createBoard(playerBoard, false);
+            createBoard(enemyBoard, true);
+            updateStatus('Your turn!');
+        }
+
+        // Initialize the game
+        resetGame();
+    </script>
+</body>
+</html>

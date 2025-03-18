@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guess the Number Game</title>
+<!--<link rel="stylesheet" href="styles.css"> -->
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+
+    h1 {
+        color: #333;
+    }
+
+    button {
+        padding: 10px;
+        margin-top: 10px;
+    }
+</style>
+
+</head>
+<body>
+    <h1>Guess the Number Game</h1>
+    <p>Guess the number between 1 and 100:</p>
+    <input type="text" id="guessField">
+    <button onclick="checkGuess()">Submit Guess</button>
+    <p id="message"></p>
+
+    <script>
+        const randomNumber = Math.floor(Math.random() * 100) + 1;
+        let attempts = 0;
+    
+        function checkGuess() {
+            const guess = parseInt(document.getElementById('guessField').value);
+    
+            if (isNaN(guess) || guess < 1 || guess > 100) {
+                setMessage('Please enter a valid number between 1 and 100.', 'red');
+                return;
+            }
+    
+            attempts++;
+    
+            if (guess === randomNumber) {
+                setMessage(`Congratulations! You guessed the number in ${attempts} attempts.`, 'green');
+            } else if (guess < randomNumber) {
+                setMessage('Too low. Try again.', 'blue');
+            } else {
+                setMessage('Too high. Try again.', 'blue');
+            }
+        }
+    
+        function setMessage(message, color) {
+            const messageElement = document.getElementById('message');
+            messageElement.innerText = message;
+            messageElement.style.color = color;
+        }
+    </script>
+</body>
+</html>
+
+<!--
+Here is a simple "Guess the Number" game implemented using HTML, CSS, and JavaScript:
+
+HTML (`index.html`):
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guess the Number Game</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>Guess the Number Game</h1>
+<p>Guess the number between 1 and 100:</p>
+<input type="text" id="guessField">
+<button onclick="checkGuess()">Submit Guess</button>
+<p id="message"></p>
+
+<script src="script.js"></script>
+</body>
+</html>
+
+```
+
+CSS (`styles.css`):
+```css
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+}
+
+button {
+    padding: 10px;
+    margin-top: 10px;
+}
+```
+
+JavaScript (`script.js`):
+```javascript
+const randomNumber = Math.floor(Math.random() * 100) + 1;
+let attempts = 0;
+
+function checkGuess() {
+    const guess = parseInt(document.getElementById('guessField').value);
+
+    if (isNaN(guess) || guess < 1 || guess > 100) {
+        setMessage('Please enter a valid number between 1 and 100.', 'red');
+        return;
+    }
+
+    attempts++;
+
+    if (guess === randomNumber) {
+        setMessage(`Congratulations! You guessed the number in ${attempts} attempts.`, 'green');
+    } else if (guess < randomNumber) {
+        setMessage('Too low. Try again.', 'blue');
+    } else {
+        setMessage('Too high. Try again.', 'blue');
+    }
+}
+
+function setMessage(message, color) {
+    const messageElement = document.getElementById('message');
+    messageElement.innerText = message;
+    messageElement.style.color = color;
+}
+```
+
+This game generates a random number between 1 and 100 and asks the player to guess it. The player can submit their guess, and feedback is provided on whether the guess is too high, too low, or correct.
+
+To play the game, save the HTML, CSS, and JavaScript code in their respective files and open the `index.html` file in a web browser.
+
+You can further customize and enhance this game by adding features such as a limited number of attempts, a reset button, a score display, or a more visually appealing interface with additional CSS styling.
+-->

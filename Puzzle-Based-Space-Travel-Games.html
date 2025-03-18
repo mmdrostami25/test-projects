@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=\, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://images.unsplash.com/photo-1600141980123-3b283fda364a');
+            background-size: cover;
+            color: white;
+            text-align: center;
+        }
+
+        .container {
+            margin: 50px auto;
+            padding: 20px;
+            border: 2px solid #fff;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            width: 400px;
+        }
+
+        #game-area {
+            display: grid;
+            grid-template-columns: repeat(5, 60px);
+            grid-template-rows: repeat(5, 60px);
+            margin: 20px auto;
+        }
+
+        .cell {
+            width: 60px;
+            height: 60px;
+            border: 1px solid #4db6ac;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .spaceship {
+            color: #ffd600;
+            font-size: 24px;
+        }
+
+        .puzzle {
+            color: #ff4081;
+            font-size: 24px;
+        }
+
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #00796b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #004d40;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Space Puzzle Adventure!</h1>
+        <div id="game-area"></div>
+        <div id="controls">
+            <h3>Control your spaceship</h3>
+            <button onclick="move('up')">Up</button>
+            <button onclick="move('down')">Down</button>
+            <button onclick="move('left')">Left</button>
+            <button onclick="move('right')">Right</button>
+        </div>
+        <p id="message">Find the puzzle to unlock the path!</p>
+    </div>
+    <script>
+        const grid = 5;
+        let spaceship = { x: 0, y: 0 };
+        let puzzlePosition = { x: Math.floor(Math.random() * grid), y: Math.floor(Math.random() * grid)};
+
+        function initGame() {
+            const gameArea = document.getElementById('game-area');
+            gameArea.innerHTML = '';
+            for (let i = 0; i < grid; i++) {
+                for (let j = 0; j < grid; j++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cell';
+                    if (i === spaceship.y && j === spaceship.x) {
+                        cell.innerHTML = '<span class="spaceship">🚀</span>';
+                    } else if (i === puzzlePosition.y && j === puzzlePosition.x) {
+                        cell.innerHTML = '<span class="puzzle">🧩</span>';
+                    }
+                    gameArea.appendChild(cell);
+                }
+            }
+        }
+
+        function move(direction) {
+            switch (direction) {
+                case 'up':
+                    if (spaceship.y > 0) spaceship.y--;
+                    break;
+                case 'down':
+                    if (spaceship.y < grid - 1) spaceship.y++;
+                    break;
+                case 'left':
+                    if (spaceship.x > 0) spaceship.x--;
+                    break;
+                case 'right':
+                    if (spaceship.x < grid - 1) spaceship.x++;
+                    break;
+            }
+            checkForPuzzle();
+            initGame();
+        }
+
+        function checkForPuzzle() {
+            if (spaceship.x === puzzlePosition.x && spaceship.y === puzzlePosition.y) {
+                document.getElementById('message').innerText = 'Puzzle solved! You can now move forward!';
+                // You can implement further logic here for additional moves or levels.
+            }
+        }
+
+        initGame();
+    </script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulation Games</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #E0F7FA;
+        }
+
+        .farm-container {
+            margin: 20px auto;
+            padding: 20px;
+            border: 2px solid #4CAF50;
+            background-color: #A5D6A7;
+            width: 300px;
+        }
+
+        #field {
+            width: 100%;
+            height: 200px;
+            background-color: #8BC34A;
+            border: 2px solid #4CAF50;
+            position: relative;
+        }
+
+        .crop {
+            width: 20px;
+            height: 20px;
+            background-color: #FFEB3B;
+            position: absolute;
+        }
+
+        .livestock {
+            width: 40px;
+            height: 40px;
+            background-color: #795548;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <h1>Life Simulation</h1>
+    <div class="life-container">
+        <div id="characters"></div>
+        <input type="text" id="nameInput" placeholder="Character Name">
+        <button id="createCharacter">Create Character</button>
+        <button id="ageCharacter">Age Character</button>
+        <div id="lifeScore">Age: 0</div>
+    </div>
+
+    <h1>Farming Simulator</h1>
+    <div class="farm-container">
+        <div id="field"></div>
+        <div id="score">Coins: 0</div>
+        <button id="plantCrop">Plant Crop</button>
+        <button id="harvestCrop">Harvest Crop</button>
+        <button id="buyLivestock">Buy Livestock</button>
+    </div>
+    <script>
+        let age = 0;
+
+        document.getElementById('createCharacter').onclick = function() {
+            const name = document.getElementById('nameInput').value;
+            if (name !== "") {
+                const characterDiv = document.createElement('div');
+                characterDiv.innerText = `Character: ${name}, Age: ${age}`;
+                document.getElementById('characters').appendChild(characterDiv);
+                document.getElementById('nameInput').value = ''; // Clear input
+            } else {
+                alert("Please enter a name!");
+            }
+        }
+
+        document.getElementById('ageCharacter').onclick = function() {
+            age++;
+            document.getElementById('lifeScore').innerText = 'Age: ' + age;
+
+            const characterDivs = document.querySelectorAll('#characters div');
+            characterDivs.forEach(div => {
+                let characterAge = parseInt(div.innerText.split(', Age: ')[1]);
+                characterAge++;
+                div.innerText = div.innerText.split(', Age: ')[0] + ', Age: ' + characterAge;
+            });
+        }
+
+        let coins = 10;
+        let crops = 10;
+        let livestock = 10;
+
+        document.getElementById('plantCrop').onclick = function() {
+            if (coins >= 5) {
+                coins -= 5;
+                crops++;
+                updateField();
+            } else {
+                alert("Not enough coins to plant crop!");
+            }
+        }
+
+        document.getElementById('harvestCrop').onclick = function() {
+            if (crops > 0) {
+                crops--;
+                coins += 10;
+                updateField();
+            } else {
+                alert("No crops to harvest!");
+            }
+        }
+
+        document.getElementById('buyLivestock').onclick = function() {
+            if (coins >= 20) {
+                coins -= 20;
+                livestock++;
+                updateField();
+            } else {
+                alert("Not enough coins to buy livestock!");
+            }
+        }
+
+        function updateField() {
+            const field = document.getElementById('field');
+            field.innerHTML = ''; // Clear field
+            for (let i = 0; i < crops; i++) {
+                let crop = document.createElement('div');
+                crop.className = 'crop';
+                crop.style.left = `${Math.random() * (field.clientWidth - 20)}px`;
+                crop.style.top = `${Math.random() * (field.clientHeight - 20)}px`;
+                field.appendChild(crop);
+            }
+
+            for (let i = 0; i < livestock; i++) {
+                let animal = document.createElement('div');
+                animal.className = 'livestock';
+                animal.style.left = `${Math.random() * (field.clientWidth - 40)}px`;
+                animal.style.top = `${Math.random() * (field.clientHeight - 40)}px`;
+                field.appendChild(animal);
+            }
+
+            document.getElementById('score').innerText = 'Coins: ' + coins;
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .music-player {
+            width: 400px;
+            margin: 50px auto;
+            background-color: #f8f8f8;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .audio {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .controls button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            background-color: #ff5500;
+            color: #fff;
+            font-size: 16px;
+            text-transform: uppercase;
+            transition: background-color 0.3s;
+        }
+
+        .controls button:hover {
+            background-color: #ff7700;
+        }
+
+        .playlist {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+        }
+
+        .song {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.3s;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .song:hover {
+            background-color: #f8f8f8;
+        }
+
+        .song-details {
+            text-align: left;
+        }
+
+        .song-title {
+            color: #111;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .song-artist {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="music-player">
+        <audio src="music.mp3" id="music" class="audio" controls autoplay></audio>
+        <div class="controls">
+            <button id="playBtn">Play</button>
+            <button id="pauseBtn">Pause</button>
+        </div>
+        <div class="playlist">
+            <div class="song">
+                <div class="song-details">
+                    <span class="song-title">Song 1</span>
+                    <span class="song-artist">Artist 1</span>
+                </div>
+                <button class="play-song-btn">Play</button>
+            </div>
+            <div class="song">
+                <div class="song-details">
+                    <span class="song-title">Song 2</span>
+                    <span class="song-artist">Artist 2</span>
+                </div>
+                <button class="play-song-btn">Play</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const music = document.getElementById('music');
+        const playBtn = document.getElementById('playBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+
+        playBtn.addEventListener('click', function() {
+            music.play();
+        });
+
+        pauseBtn.addEventListener('click', function() {
+            music.pause();
+        });
+    </script>
+</body>
+</html>
